@@ -9,6 +9,11 @@ import plotly.express as xp
 # this options list will be needed in the dcc.Dropdown componenet setting 
 options=[{'label':region,'value':region} for region in ['east','north','west','south']]
 
+colors = {
+    'background': '#111111',
+    'text': '#7FDBFF'
+}
+
 sales=pd.read_csv('response.csv')
 # create sales dataframe by regions east west north and south
 salesE=sales[sales['region']=='east'][['date','Sales']]
@@ -19,7 +24,10 @@ salesS=sales[sales['region']=='south'][['date','Sales']]
 
 app=dash.Dash()
 app.layout = html.Div([
-    html.H1(children='Sales evolution by time '),
+    html.H1(children='Sales Evolution by Date ',style={
+            'textAlign': 'center',
+            'color': colors['text']
+        }),
     
     
     dcc.Dropdown(
@@ -27,7 +35,9 @@ app.layout = html.Div([
     options=options,
     value='east' #default value
     ),  
-    html.Div(id='displaySales'),  
+    html.Div(id='displaySales',style={
+            'textAlign': 'center',
+            'color':'red'}),  
     dcc.Graph(id='chart',figure={})
 ])
 @app.callback(
@@ -44,7 +54,7 @@ def update(input_value):
     fig = xp.line(df, x='date', y='Sales')
     fig.add_annotation(x='2021-1-15',y=2195.0, text="15th of January, 2021")
     fig.update_layout(hovermode="x")
-    return f'Sales in {input_value} region',fig
+    return f'Sales in {input_value.capitalize()} Region',fig
 
 if __name__ == '__main__':
     app.run_server(debug=True)
