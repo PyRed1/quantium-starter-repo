@@ -1,2 +1,3 @@
 # Quantium starter repo
-This repo contains everything you need to get started on the program! Good luck!
+It was great experience,Thanks for making it possible to share my work
+with you.
